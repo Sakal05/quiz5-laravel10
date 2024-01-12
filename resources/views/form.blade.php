@@ -35,7 +35,7 @@
         <label for="category">Select Category:</label>
         <select name="category" id="category">
             <option value="space">Space</option>
-            <option value="block">Block</option>
+            {{-- <option value="block">Block</option> --}}
         </select>
 
         <br>
