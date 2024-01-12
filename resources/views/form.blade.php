@@ -56,7 +56,7 @@
             <div>No image</div>
         @else
             @foreach ($spaceImages as $image)
-                <img src="https://election-storage.sgp1.digitaloceanspaces.com/quiz/{{ $image->name }}" alt="">
+                <img src="https://paragoniu-2024.sgp1.digitaloceanspaces.com/quiz/{{ $image->name }}" alt="">
             @endforeach
         @endempty
     </div>

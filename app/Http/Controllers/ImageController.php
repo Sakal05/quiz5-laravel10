@@ -13,11 +13,9 @@ class ImageController extends Controller
     public function index()
     {
         $spaceImages = Image::where('category', 'space')->get();
+        // dd($spaceImages);
 
-        $blockImages = Image::where('category', 'block')->get();
-        // dd($blockImages);
-
-        return view('form', ['spaceImages'=> $spaceImages, 'blockImages' => $blockImages]);
+        return view('form', ['spaceImages'=> $spaceImages]);
     }
 
     public function upload(Request $request)
@@ -31,19 +29,27 @@ class ImageController extends Controller
         if ($request->category == 'space') {
             try {
                 $folder = 'quiz';
-                // dd($folder);
                 $fileName = $file->getClientOriginalName();
+                // dd($fileName);
                 // $sanitizedFileName = $this->sanitizeFileName($fileName);
                 // $filePath = "{$folder}/{$sanitizedFileName}";
     
+                
+                // $storeFile = $file->storeAs(
+                    //     $folder,
+                    //     $fileName,
+                    //     'digitalocean'
+                    // );
+                    
+                $storeFile = Storage::disk('digitalocean')->putFileAs($folder, $file, $fileName, 'public');
+                $fileName = basename($storeFile);
+
                 Image::create([
                     'name' => $fileName,
                     'category' => $request->category,
                 ]);
-    
-                $storeFile = Storage::disk('digitalocean')->putFileAs($folder, $file, $fileName, 'public');
-                $fileName = basename($storeFile);
-    
+                
+                // dd($fileName);
                 return response()->json(['message' => 'File uploaded successfully', 'data' => $fileName]);
             } catch (RequestException $e) {
                 return response()->json(['error' => $e->getMessage()], 500);
